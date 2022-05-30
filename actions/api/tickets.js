@@ -6,8 +6,10 @@ module.exports = {
             customerId: req.body.customerId,
             technicianId: req.body.technicianId,
             reportDate: new Date(),
+            model:req.body.model,
             status:req.body.status,
-            comments:req.body.comments,
+            customerComment:req.body.customerComment,
+            technicianComment:req.body.technicianComment,
         })
 
         await ticket.save();
@@ -24,14 +26,27 @@ module.exports = {
         let doc = await Ticket.find({});
         res.status(200).json(doc);
     },
-    updateTicket(req, res) {
+    async updateTicket(req, res) {
         const ticketId = req.params.id;
-
-        res.send(ticketId)
+        Ticket.findOneAndUpdate({_id: ticketId}, 
+            {status:req.body.status,technicianComment:req.body.technicianComment},
+            function (err, docs) {
+                if (err){
+                    res.status(500).json({message:err});
+                }
+                else{
+                    res.status(200).json(docs);
+                }
+                console.log(req.body.technicianComment);
+        });
     },
-    deleteTicket(req, res) {
+    async deleteTicket(req, res) {
         const ticketId = req.params.id;
+        await Ticket.deleteOne({_id: ticketId}).then(function(){
+            res.send('usunieto')
+        }).catch(function(error){
+            res.status(500).json({message:error});
+        });;
 
-        res.send('dupa123')
     },
 }

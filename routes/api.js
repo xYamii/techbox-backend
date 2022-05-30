@@ -6,6 +6,6 @@ router.get('/tickets', ticketActions.getTickets);
 router.get('/ticket/:id', ticketActions.getTicket);
 router.post('/ticket', ticketActions.saveTicket);
 router.put('/ticket/:id', ticketActions.updateTicket);
-router.delete('/ticket', ticketActions.deleteTicket);
+router.delete('/ticket/:id', ticketActions.deleteTicket);
 
 module.exports = router;
